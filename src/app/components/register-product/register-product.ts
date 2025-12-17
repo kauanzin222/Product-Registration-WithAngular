@@ -1,14 +1,30 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CategoryInterface } from '../../interfaces/CategoryInterface';
+import { ProductInterface } from '../../interfaces/ProductInterface';
 
 @Component({
   selector: 'app-register-product',
   standalone: false,
   templateUrl: './register-product.html',
-  styleUrl: './register-product.css',
+  styleUrls: ['./register-product.css'],
 })
-export class RegisterProduct {
+export class RegisterProduct implements OnInit {
 
   @Input()
   categories: CategoryInterface[] = {} as CategoryInterface[];
+
+  @Input()
+  product?: ProductInterface;
+
+  @Output()
+  saveEmitter = new EventEmitter();
+
+  save() {
+    this.saveEmitter.emit();
+  }
+
+  constructor() { }
+  ngOnInit(): void {
+
+  }
 }

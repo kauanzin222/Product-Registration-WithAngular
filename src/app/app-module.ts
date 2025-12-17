@@ -4,6 +4,7 @@ import { BrowserModule, provideClientHydration, withEventReplay } from '@angular
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 import { Header } from './components/header/header';
 import { RegisterProduct } from './components/register-product/register-product';
 import { TableProducts } from './components/table-products/table-products';
@@ -20,7 +21,8 @@ import { Footer } from './components/footer/footer';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
