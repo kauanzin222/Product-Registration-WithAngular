@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryInterface } from '../../interfaces/CategoryInterface';
 import { ProductInterface } from '../../interfaces/ProductInterface';
+import { CategoryService } from '../../services/category-service';
+import { ProductService } from '../../services/product-service';
 
 @Component({
   selector: 'app-table-products',
@@ -10,28 +12,34 @@ import { ProductInterface } from '../../interfaces/ProductInterface';
 })
 export class TableProducts implements OnInit {
 
-  idCount: number = 1;
-
-  categories: CategoryInterface[] = [
-    { id: 1, name: 'Produção própria' },
-    { id: 2, name: 'Nacional' },
-    { id: 3, name: 'Importado' },
-    { id: 4, name: 'Premium' }
-  ]
+  categories: CategoryInterface[] = [];
 
   // Objeto Produto vazio e Array de objetos Produtos
   products: ProductInterface[] = [];
   product: ProductInterface = {} as ProductInterface;
 
-  saveProduct() {
-    this.product.id = this.idCount++;
-    this.products.push(this.product);
+  constructor(private categoryService: CategoryService, private productService: ProductService) { }
 
-    this.product = {} as ProductInterface;
-  }
-
-  constructor() { }
   ngOnInit(): void {
+    //this.categories = this.categoryService.getCategories();
+    //this.products = this.productService.getProducts();
 
+    this.categoryService.getCategories().subscribe({
+      /* data é o que vou receber do backend */
+      next: data => { this.categories = data }
+    });
+
+    this.productService.getProducts().subscribe({
+      next: data => { this.products = data }
+    });
   }
+
+  saveProduct() {
+    this.productService.save(this.product).subscribe({
+      next: data => {
+        this.products.push(data);
+        this.product = {} as ProductInterface;
+      }
+    });
+  };
 }
